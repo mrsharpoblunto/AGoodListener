@@ -12,7 +12,7 @@ Usage
 var elem = document.getElementById('some-element');
 
 // Returns true if the element has at least one click listener
-// In the case of listeners added using IE8 the style element.attachEvent('onclick')
+// In the case of listeners added using the legacy IE style element.attachEvent('onclick')
 // the 'on' prefix will be removed and it will still be recorded as a 'click' listener
 var hasClickListener = elem.hasEventListener('click');
 
