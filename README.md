@@ -36,4 +36,25 @@ elem.onRemoveEventListener('click',function(handler) {
 
 ```
 
+When might this be useful?
+--------------------------
+
+Say you're testing a page where you need to click a button using an automated browser (we'll use Selenium WebDriver in this example), but the click event is not attached to the button immediately. This means that usually you would have to tell the automated browser to wait for some arbitrary time period until the click event has probably been attached before it can click the button. Obviously this is a brittle and error prone (not to mention slow) strategy. 
+
+A better way would be to wait until we know for sure that the event listener has been attached as shown below.
+
+```csharp
+using (IWebDriver driver = new OpenQA.Selenium.Firefox.FirefoxDriver())
+{
+  driver.Navigate().GoToUrl("http://some-test-page/");
+
+  // wait until we know the click event has been attached to the button
+  WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+  wait.Until(d => (d as IJavaScriptExecutor).ExecuteScript(
+	  "return document.getElementById('button').hasEventListener('click')"));
+
+  // now we can click on the button!
+  driver.FindElement(By.Id("button")).Click();
+}
+```
 
